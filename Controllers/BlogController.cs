@@ -28,12 +28,6 @@ namespace FYP_AgroNepalTrade.Controllers
             return View();
         }
 
-        // GET: BlogController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: BlogController/Create
         public ActionResult CreateBlog()
         {
@@ -43,63 +37,31 @@ namespace FYP_AgroNepalTrade.Controllers
         public async Task<IActionResult> Add(CreateViewModel createViewModel)
         {
             await blogBusinessManager.CreateBlog(createViewModel, User);
-            return View("CreateBlog", createViewModel);
+            return RedirectToAction("CreateBlog");
         } 
-        // POST: BlogController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: BlogController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            var actionResult = await blogBusinessManager.GetEditViewModel(id, User);
+
+            if (actionResult.Result is null)
+                return View(actionResult.Value);
+
+            return actionResult.Result;
         }
 
-        // POST: BlogController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Update(EditViewModel editViewModel)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var actionResult =  await blogBusinessManager.UpdateBlog(editViewModel, User);
+
+            if (actionResult.Result is null)
+                return RedirectToAction("Edit", new { editViewModel.Blog.Id });
+
+            return actionResult.Result;
         }
 
-        // GET: BlogController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: BlogController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

@@ -2,6 +2,7 @@
 using AgroNepalTrade.Models;
 using FYP_AgroNepalTrade.Models.BlogViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,29 @@ namespace FYP_AgroNepalTrade.Models.Services
             this.applicationDbContext = applicationDbContext;
         }
 
+        public Blog GetBlog(int blogId)
+        {
+            return applicationDbContext.Blogs.FirstOrDefault(blog => blog.Id == blogId);
+        }
+
+        public IEnumerable<Blog> GetBlogs(ApplicationUser applicationUser)
+        {
+            return applicationDbContext.Blogs
+                .Include(blog => blog.Author)
+                .Include(blog => blog.Approver)
+                .Include(blog => blog.Posts)
+                .Where(blog => blog.Author == applicationUser);
+        }
         public async Task<Blog> Add(Blog blog)
         {
             applicationDbContext.Add(blog);
+            await applicationDbContext.SaveChangesAsync();
+            return blog;
+        }
+
+        public async Task<Blog> Update(Blog blog)
+        {
+            applicationDbContext.Update(blog);
             await applicationDbContext.SaveChangesAsync();
             return blog;
         }

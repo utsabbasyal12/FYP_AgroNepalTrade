@@ -10,6 +10,10 @@ using Microsoft.Extensions.Hosting;
 using FYP_AgroNepalTrade.Models.Services;
 using FYP_AgroNepalTrade.BlogManagers;
 using FYP_AgroNepalTrade.BlogManagers.Interfaces;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Authorization;
+using FYP_AgroNepalTrade.Authorization;
 
 namespace FYP_AgroNepalTrade
 {
@@ -33,7 +37,10 @@ namespace FYP_AgroNepalTrade
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddScoped<IBlogBusinessManager, BlogBusinessManager>();
+            services.AddScoped<IAuthorBusinessManager, AuthorBusinessManager>();
             services.AddScoped<IBlogService, BlogService>();
+            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
+            services.AddTransient<IAuthorizationHandler, BlogAuthorizatioHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
