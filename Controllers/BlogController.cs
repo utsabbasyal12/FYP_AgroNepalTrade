@@ -24,9 +24,9 @@ namespace FYP_AgroNepalTrade.Controllers
         }
         // GET: BlogController
         [HttpGet]
-        public ActionResult Index()
+        public IActionResult Index(string searchString, int? page)
         {
-            return View();
+            return View(blogBusinessManager.GetIndexViewModel(searchString, page));
         }
 
         // GET: BlogController/Create
