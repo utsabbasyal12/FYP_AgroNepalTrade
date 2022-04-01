@@ -13,11 +13,11 @@
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select" asp-for="Input.Roles" aria-label="Default select example">
                     <option selected>User Type</option>
-                    <option value="1">Farmer</option>
-                    <option value="2">Customer</option>
-                    <option value="3">Author</option>
+                    <option value="Farmer">Farmer</option>
+                    <option value="Customer">Customer</option>
+                    <option value="Author">Author</option>
                 </select>
             </div>
             <div class="form-group">
