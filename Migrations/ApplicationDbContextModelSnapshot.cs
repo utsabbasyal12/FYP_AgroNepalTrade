@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AgroNepalTrade.Migrations
+namespace FYP_AgroNepalTrade.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -137,12 +137,15 @@ namespace AgroNepalTrade.Migrations
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("FYP_AgroNepalTrade.Models.BlogViewModels.Post", b =>
+            modelBuilder.Entity("FYP_AgroNepalTrade.Models.BlogViewModels.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("BlogId")
                         .HasColumnType("int");
@@ -156,18 +159,15 @@ namespace AgroNepalTrade.Migrations
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PoserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("BlogId");
 
                     b.HasIndex("ParentId");
 
-                    b.HasIndex("PoserId");
-
-                    b.ToTable("Posts");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -316,25 +316,25 @@ namespace AgroNepalTrade.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("FYP_AgroNepalTrade.Models.BlogViewModels.Post", b =>
+            modelBuilder.Entity("FYP_AgroNepalTrade.Models.BlogViewModels.Comment", b =>
                 {
+                    b.HasOne("AgroNepalTrade.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
                     b.HasOne("FYP_AgroNepalTrade.Models.BlogViewModels.Blog", "Blog")
-                        .WithMany("Posts")
+                        .WithMany("Comments")
                         .HasForeignKey("BlogId");
 
-                    b.HasOne("FYP_AgroNepalTrade.Models.BlogViewModels.Post", "Parent")
-                        .WithMany()
+                    b.HasOne("FYP_AgroNepalTrade.Models.BlogViewModels.Comment", "Parent")
+                        .WithMany("Comments")
                         .HasForeignKey("ParentId");
 
-                    b.HasOne("AgroNepalTrade.Models.ApplicationUser", "Poser")
-                        .WithMany()
-                        .HasForeignKey("PoserId");
+                    b.Navigation("Author");
 
                     b.Navigation("Blog");
 
                     b.Navigation("Parent");
-
-                    b.Navigation("Poser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -390,7 +390,12 @@ namespace AgroNepalTrade.Migrations
 
             modelBuilder.Entity("FYP_AgroNepalTrade.Models.BlogViewModels.Blog", b =>
                 {
-                    b.Navigation("Posts");
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("FYP_AgroNepalTrade.Models.BlogViewModels.Comment", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }
