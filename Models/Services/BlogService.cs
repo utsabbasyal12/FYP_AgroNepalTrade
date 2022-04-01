@@ -25,6 +25,14 @@ namespace FYP_AgroNepalTrade.Models.Services
         {
             return applicationDbContext.Blogs.FirstOrDefault(blog => blog.Id == blogId);
         }
+        public IEnumerable<Blog> GetBlogs(string searchString)
+        {
+            return applicationDbContext.Blogs
+                .OrderByDescending(blog => blog.UpdatedOn)
+                .Include(blog => blog.Author)
+                .Include(blog => blog.Posts)
+                .Where(blog => blog.Title.Contains(searchString) || blog.Content.Contains(searchString));
+        }
 
         public IEnumerable<Blog> GetBlogs(ApplicationUser applicationUser)
         {
