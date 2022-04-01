@@ -1,6 +1,7 @@
 ﻿using FYP_AgroNepalTrade.BlogManagers.Interfaces;
 using FYP_AgroNepalTrade.Models.BlogViewModels;
 using FYP_AgroNepalTrade.Models.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ namespace FYP_AgroNepalTrade.Controllers
         }
 
         // GET: BlogController/Create
+        [Authorize(Roles = "Author")]
         public ActionResult CreateBlog()
         {
             return View(new CreateViewModel());

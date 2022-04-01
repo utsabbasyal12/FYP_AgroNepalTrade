@@ -30,7 +30,7 @@ namespace FYP_AgroNepalTrade.Models.Services
             return applicationDbContext.Blogs
                 .OrderByDescending(blog => blog.UpdatedOn)
                 .Include(blog => blog.Author)
-                .Include(blog => blog.Posts)
+                .Include(blog => blog.Comments)
                 .Where(blog => blog.Title.Contains(searchString) || blog.Content.Contains(searchString));
         }
 
@@ -39,7 +39,7 @@ namespace FYP_AgroNepalTrade.Models.Services
             return applicationDbContext.Blogs
                 .Include(blog => blog.Author)
                 .Include(blog => blog.Approver)
-                .Include(blog => blog.Posts)
+                .Include(blog => blog.Comments)
                 .Where(blog => blog.Author == applicationUser);
         }
         public async Task<Blog> Add(Blog blog)
