@@ -10,7 +10,7 @@ namespace FYP_AgroNepalTrade.Models.BlogViewModels
     public class CreateViewModel
     {
         [Required, Display(Name = "Header Image")]
-        public IFormFile BlogHeaderImage { get; set; }
+        public IFormFile HeaderImage { get; set; }
         public Blog Blog { get; set; }
     }
 }

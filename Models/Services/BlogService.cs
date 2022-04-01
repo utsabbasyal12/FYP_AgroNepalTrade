@@ -23,7 +23,13 @@ namespace FYP_AgroNepalTrade.Models.Services
 
         public Blog GetBlog(int blogId)
         {
-            return applicationDbContext.Blogs.FirstOrDefault(blog => blog.Id == blogId);
+            return applicationDbContext.Blogs
+                .Include(blog => blog.Author)
+                .Include(blog => blog.Comments)
+                    .ThenInclude(comment => comment.Author)
+                .Include(blog => blog.Comments)
+                    .ThenInclude(comment => comment.Comments)
+                .FirstOrDefault(blog => blog.Id == blogId);
         }
         public IEnumerable<Blog> GetBlogs(string searchString)
         {

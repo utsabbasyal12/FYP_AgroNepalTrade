@@ -1,0 +1,34 @@
+﻿@model FYP_AgroNepalTrade.Models.BlogViewModels.BlogViewModel
+@{ 
+    ViewData["HeaderImage"] = $"../../UserFiles/Blogs/{Model.Blog.Id}.HeaderImage.jpg";
+    ViewData["HeaderTitle"] = Model.Blog.Title;
+    ViewData["AuthorName"] = $"{Model.Blog.Author.FirstName} {Model.Blog.Author.LastName}";
+    ViewData["PostDate"] = Model.Blog.UpdatedOn.ToString("MMM d, yyyy");
+}
+
+<header class="masthead" style="background-image:url('@ViewData["HeaderImage"]')">
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="Blog-heading">
+                        <h1>@ViewData["HeaderTitle"]</h1>
+                        <span class="meta">Posted by 
+                            <a href="#">@ViewData["AuthorName"]</a>
+                            on @ViewData["PostDate"]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                @Html.Raw(Model.Blog.Content)
+            </div>
+        </div>
+    </div>
+</article>

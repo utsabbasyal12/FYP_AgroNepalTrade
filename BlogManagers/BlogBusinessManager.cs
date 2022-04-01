@@ -46,6 +46,30 @@ namespace FYP_AgroNepalTrade.BlogManagers
                 PageNumber = pageNumber
             };
         }
+        public async Task<ActionResult<BlogViewModel>> GetBlogViewModel(int? id, ClaimsPrincipal claimsPrincipal)
+        {
+            if (id is null)
+                return new BadRequestResult();
+
+            var blogId = id.Value;
+
+            var blog = blogService.GetBlog(blogId);
+
+            if (blog is null)
+                return new NotFoundResult();
+
+            if (!blog.Published)
+            {
+                var authorizationResult = await authorizationService.AuthorizeAsync(claimsPrincipal, blog, Operations.Read);
+
+                if (!authorizationResult.Succeeded)
+                    return DetermineActionResult(claimsPrincipal);
+            }
+            return new BlogViewModel
+            {
+                Blog = blog
+            };
+        }
         public async Task<Blog> CreateBlog(CreateViewModel createViewModel, ClaimsPrincipal claimsPrincipal)
         {
             Blog blog = createViewModel.Blog;
@@ -62,7 +86,7 @@ namespace FYP_AgroNepalTrade.BlogManagers
             EnsureFolder(pathToImage);
             using(var fileStream = new FileStream(pathToImage, FileMode.Create))
             {
-                await createViewModel.BlogHeaderImage.CopyToAsync(fileStream);
+                await createViewModel.HeaderImage.CopyToAsync(fileStream);
             }
             return blog;
         }

@@ -26,6 +26,9 @@ namespace FYP_AgroNepalTrade.Authorization
             {
                 context.Succeed(requirement);
             }
+
+            if (requirement.Name == Operations.Read.Name && !resource.Published && applicationUser == resource.Author)
+                context.Succeed(requirement);
         }
     }
 }
