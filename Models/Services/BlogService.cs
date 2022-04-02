@@ -29,6 +29,7 @@ namespace FYP_AgroNepalTrade.Models.Services
                     .ThenInclude(comment => comment.Author)
                 .Include(blog => blog.Comments)
                     .ThenInclude(comment => comment.Comments)
+                        .ThenInclude(reply => reply.Parent)
                 .FirstOrDefault(blog => blog.Id == blogId);
         }
         public IEnumerable<Blog> GetBlogs(string searchString)
@@ -48,11 +49,26 @@ namespace FYP_AgroNepalTrade.Models.Services
                 .Include(blog => blog.Comments)
                 .Where(blog => blog.Author == applicationUser);
         }
+
+        public Comment GetComment(int commentId)
+        {
+            return applicationDbContext.Comments
+                .Include(comment => comment.Author)
+                .Include(comment => comment.Blog)
+                .Include(comment => comment.Parent)
+                .FirstOrDefault(comment => comment.Id == commentId);
+        }
         public async Task<Blog> Add(Blog blog)
         {
             applicationDbContext.Add(blog);
             await applicationDbContext.SaveChangesAsync();
             return blog;
+        }
+        public async Task<Comment> Add(Comment comment)
+        {
+            applicationDbContext.Add(comment);
+            await applicationDbContext.SaveChangesAsync();
+            return comment;
         }
 
         public async Task<Blog> Update(Blog blog)

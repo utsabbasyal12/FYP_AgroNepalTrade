@@ -15,5 +15,6 @@ namespace FYP_AgroNepalTrade.BlogManagers.Interfaces
         IndexViewModel GetIndexViewModel(string searchString, int? page);
         Task<ActionResult<EditViewModel>> GetEditViewModel(int? id, ClaimsPrincipal claimsPrincipal);
         Task<ActionResult<EditViewModel>> UpdateBlog(EditViewModel editViewModel, ClaimsPrincipal claimsPrincipal);
+        Task<ActionResult<Comment>> CreateComment(BlogViewModel blogViewModel, ClaimsPrincipal claimsPrincipal);
     }
 }

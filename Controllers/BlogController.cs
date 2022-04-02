@@ -28,6 +28,7 @@ namespace FYP_AgroNepalTrade.Controllers
         {
             return View(blogBusinessManager.GetIndexViewModel(searchString, page));
         }
+        /*[Route("Blog/{id}"), AllowAnonymous]*/
         public async Task<IActionResult> Details(int? id)
         {
             var actionResult = await blogBusinessManager.GetBlogViewModel(id, User);
@@ -72,7 +73,16 @@ namespace FYP_AgroNepalTrade.Controllers
 
             return actionResult.Result;
         }
+        [HttpPost]
+        public async Task<IActionResult> Comment(BlogViewModel blogViewModel)
+        {
+            var actionResult = await blogBusinessManager.CreateComment(blogViewModel, User);
 
+            if (actionResult.Result is null)
+                return RedirectToAction("Details", new { blogViewModel.Blog.Id });
+
+            return actionResult.Result;
+        }
 
     }
 }

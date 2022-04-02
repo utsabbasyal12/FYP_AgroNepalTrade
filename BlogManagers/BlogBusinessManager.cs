@@ -36,7 +36,7 @@ namespace FYP_AgroNepalTrade.BlogManagers
             int pageSize = 10;
             int pageNumber = page ?? 1;
             var blogs = blogService.GetBlogs(searchString ?? string.Empty)
-                .Where(blog => blog.Published);
+                .Where(blog => blog.Published); ;
             
 
             return new IndexViewModel
@@ -90,6 +90,28 @@ namespace FYP_AgroNepalTrade.BlogManagers
             }
             return blog;
         }
+        public async Task<ActionResult<Comment>> CreateComment(BlogViewModel blogViewModel, ClaimsPrincipal claimsPrincipal)
+        {
+            if (blogViewModel.Blog is null || blogViewModel.Blog.Id == 0)
+                return new BadRequestResult();
+
+            var blog = blogService.GetBlog(blogViewModel.Blog.Id);
+
+            if (blog is null)
+                return new NotFoundResult();
+
+            var comment = blogViewModel.Comment;
+
+            comment.Author = await userManager.GetUserAsync(claimsPrincipal);
+            comment.Blog = blog;
+            comment.CreatedOn = DateTime.Now;
+
+            if(comment.Parent != null)
+            {
+                comment.Parent = blogService.GetComment(comment.Parent.Id);
+            }
+            return await blogService.Add(comment);
+        }
         public async Task<ActionResult<EditViewModel>> UpdateBlog(EditViewModel editViewModel, ClaimsPrincipal claimsPrincipal)
         {
             var blog = blogService.GetBlog(editViewModel.Blog.Id);
@@ -103,9 +125,9 @@ namespace FYP_AgroNepalTrade.BlogManagers
             blog.Published = editViewModel.Blog.Published;
             blog.Title = editViewModel.Blog.Title;
             blog.Content= editViewModel.Blog.Content;
-            blog.UpdatedOn = editViewModel.Blog.UpdatedOn;
+            blog.UpdatedOn = DateTime.Now;
 
-            if(editViewModel.BlogHeaderImage != null)
+            if(editViewModel.HeaderImage != null)
             {
                 string webRootPath = webHostEnvironment.WebRootPath;
                 string pathToImage = $@"{webRootPath}\UserFiles\Blogs\{blog.Id}\HeaderImage.jpg";
@@ -114,7 +136,7 @@ namespace FYP_AgroNepalTrade.BlogManagers
                 
                 using (var fileStream = new FileStream(pathToImage, FileMode.Create))
                 {
-                    await editViewModel.BlogHeaderImage.CopyToAsync(fileStream);
+                    await editViewModel.HeaderImage.CopyToAsync(fileStream);
                 }
             }
             return new EditViewModel

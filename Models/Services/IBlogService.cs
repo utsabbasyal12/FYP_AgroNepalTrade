@@ -13,6 +13,8 @@ namespace FYP_AgroNepalTrade.Models.Services
         Blog GetBlog(int blogId);
         IEnumerable<Blog> GetBlogs(string searchString);
         IEnumerable<Blog> GetBlogs(ApplicationUser applicationUser);
+        Comment GetComment(int commentId);
+        Task<Comment> Add(Comment comment);
         Task<Blog> Add(Blog blog);
         Task<Blog> Update(Blog blog);
 
