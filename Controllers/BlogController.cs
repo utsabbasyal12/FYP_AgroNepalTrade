@@ -28,7 +28,8 @@ namespace FYP_AgroNepalTrade.Controllers
         {
             return View(blogBusinessManager.GetIndexViewModel(searchString, page));
         }
-        /*[Route("Blog/{id}"), AllowAnonymous]*/
+      /*  [Route("Blog/{id}")]*/
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             var actionResult = await blogBusinessManager.GetBlogViewModel(id, User);
