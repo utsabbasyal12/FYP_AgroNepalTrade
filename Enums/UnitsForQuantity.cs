@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FYP_AgroNepalTrade.Enums
 {
-    public enum Units
+    public enum UnitsForQuantity
     {
         Kilogram,
         Gram,

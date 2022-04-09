@@ -18,7 +18,8 @@ namespace FYP_AgroNepalTrade.Models.ProductViewModels
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
         public bool Published { get; set; }
-        public string Units { get; set; }
+        public string UnitsForPrice { get; set; }
+        public string UnitsForQuantity { get; set; }
 
     }
 }
