@@ -1,0 +1,61 @@
+﻿@model FYP_AgroNepalTrade.Models.ProductViewModels.ProductViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["HeaderImage"] = $"../../UserFiles/Products/{Model.Product.Id}.HeaderImage.jpg";
+    ViewData["HeaderTitle"] = Model.Product.ProductName;
+    ViewData["AuthorName"] = $"{Model.Product.Farmer.FirstName} {Model.Product.Farmer.LastName}";
+    ViewData["PostDate"] = Model.Product.UpdatedOn.ToString("MMM d, yyyy");
+    ViewData["Quantity"] = Model.Product.Quantity.ToString();
+    ViewData["Price"] = Model.Product.PricePerUnit.ToString();
+    ViewData["Units"] = Model.Product.Units;
+    ViewData["AuthorId"] = Model.Product.Farmer.Id;
+    ViewData["PhoneNumber"] = Model.Product.Farmer.PhoneNumber;
+}
+@using System.Web
+
+
+<header class="masthead" style="background-image:url('@ViewData["HeaderImage"]')">
+    <img src="@ViewData["HeaderImage"]" class="card-img-top">
+    <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto mt-3">
+                    <div class="Blog-heading">
+                        <h1><a href="#">@ViewData["AuthorName"]</a></h1>
+                        <span class="meta">
+                            Posted on
+
+                            on @ViewData["PostDate"]
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <h3>Product Name: @ViewData["HeaderTitle"]</h3>
+                <h3>Quantity: @ViewData["Quantity"] </h3>
+                <h3>Price Per Unit: @ViewData["Price"]/@ViewData["Units"]  </h3>
+                @* @Html.Raw(HttpUtility.HtmlDecode(Model.Product.ProductName))
+        @Html.Raw(HttpUtility.HtmlDecode(Model.Product.Quantity.ToString()))*@
+
+                </br>
+
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
+                {
+                    <h5 class="btn btn-primary">@ViewData["PhoneNumber"]</h5>
+                    <h5 class="btn btn-primary"><a href="#"></a></h5>
+
+                }
+            </div>
+
+        </div>
+
+    </div>
+</article>

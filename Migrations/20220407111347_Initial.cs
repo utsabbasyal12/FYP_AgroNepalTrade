@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FYP_AgroNepalTrade.Migrations
 {
-    public partial class Initialize : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -86,8 +86,8 @@ namespace FYP_AgroNepalTrade.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Published = table.Column<bool>(type: "bit", nullable: false),
@@ -107,6 +107,33 @@ namespace FYP_AgroNepalTrade.Migrations
                     table.ForeignKey(
                         name: "FK_Blogs_User_AuthorId",
                         column: x => x.AuthorId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Product",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FarmerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PricePerUnit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Published = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_User_FarmerId",
+                        column: x => x.FarmerId,
                         principalSchema: "Identity",
                         principalTable: "User",
                         principalColumn: "Id",
@@ -277,6 +304,12 @@ namespace FYP_AgroNepalTrade.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_FarmerId",
+                schema: "Identity",
+                table: "Product",
+                column: "FarmerId");
+
+            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 schema: "Identity",
                 table: "Role",
@@ -327,6 +360,10 @@ namespace FYP_AgroNepalTrade.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Comments",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "Product",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

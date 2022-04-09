@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FYP_AgroNepalTrade.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220401155856_Initialize")]
-    partial class Initialize
+    [Migration("20220409150838_Added Units")]
+    partial class AddedUnits
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -116,6 +116,7 @@ namespace FYP_AgroNepalTrade.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -125,6 +126,7 @@ namespace FYP_AgroNepalTrade.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -170,6 +172,45 @@ namespace FYP_AgroNepalTrade.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("FYP_AgroNepalTrade.Models.ProductViewModels.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FarmerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("PricePerUnit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Published")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Units")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FarmerId");
+
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -337,6 +378,15 @@ namespace FYP_AgroNepalTrade.Migrations
                     b.Navigation("Blog");
 
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("FYP_AgroNepalTrade.Models.ProductViewModels.Product", b =>
+                {
+                    b.HasOne("AgroNepalTrade.Models.ApplicationUser", "Farmer")
+                        .WithMany()
+                        .HasForeignKey("FarmerId");
+
+                    b.Navigation("Farmer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

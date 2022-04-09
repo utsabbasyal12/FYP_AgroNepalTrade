@@ -1,0 +1,36 @@
+﻿@model FYP_AgroNepalTrade.Models.ProductViewModels.IndexViewModel
+@using PagedList.Core.Mvc
+@{
+    ViewBag.Title = "Farmers";
+}
+<h1>Our Farmers</h1>
+
+<div class="container">
+    <form asp-controller="Product" asp-action="Index" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group mb-3">
+            <input asp-for="SearchString" type="text" class="form-control" placeholder="Search Farmer for..." />
+            <div class="input-group-append ">
+                <button class="btn btn-outline-secondary" style="padding: 0 10px 0 10px">Search</button>
+            </div>
+        </div>
+    </form>
+    <div class="row align-content-center">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-lg-4 col-md-3 mb-4">
+                <div class="card border-0 shadow">
+                    <img src="~/UserFiles/Products/@product.Id/HeaderImage.jpg" class="card-img-top">
+                    <div class="card-body">
+                        <div class="row text-center" style="margin: 0px auto 10px 0px;">
+                            <h5 class="card-title text-center w-100">Farmer Name: @product.Farmer</h5>
+                            <h5 class="card-title text-center w-100"><a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id">Product Name: @product.ProductName</a></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div list="@Model.Products" count="10">
+        <pager class="page-container" list="@Model.Products" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext" asp-action="Index" asp-controller="Blog" asp-route-query="@Model.SearchString"></pager>
+    </div>
+</div>

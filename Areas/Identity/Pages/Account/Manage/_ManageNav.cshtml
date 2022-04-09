@@ -23,8 +23,9 @@
     }
     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Farmer"))
     {
-        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="RoleManager" asp-action="Index">Manage Products</a></li>
-        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="RoleManager" asp-action="Index">Manage Orders</a></li>
+        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Product" asp-action="Create">Add Products</a></li>
+        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Farmer" asp-action="Index">Manage Products</a></li>
+        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">Manage Orders</a></li>
 
     }
     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Cutomer"))

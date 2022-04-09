@@ -47,7 +47,8 @@ namespace AgroNepalTrade.Areas.Identity.Pages.Account
 
 public class InputModel
 {
-            public string Roles { get; set; }
+    [Required]
+    public string Roles { get; set; }
     [Required]
     [Display(Name = "First Name")]
     public string FirstName { get; set; }

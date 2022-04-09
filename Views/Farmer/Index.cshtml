@@ -1,0 +1,46 @@
+﻿@model FYP_AgroNepalTrade.Models.FarmerViewModels.IndexViewModel
+@{
+    ViewBag.Title = "Manage Products";
+}
+<div class="container-fluid">
+    <h1 class="mt-4">Manage Products</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+    <div class="row">
+        @foreach (var product in Model.Product)
+        {
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-0 shadow">
+                    <img src="~/UserFiles/Products/@product.Id/HeaderImage.jpg" class="card-img-top" />
+                    <div class="card-body">
+                        <div class="row" style="margin:0px auto 10px 0px;">
+                            <div><h5 class="card-title mb-0">@product.ProductName</h5></div>
+                            <div class="ml-auto mr-3">
+                                <i class="fas @(product.Published ? "fa-eye" : "fa-eye-slash")" style="color: @(product.Published ? "deepskyblue" : "orangered")"></i>
+                            </div>
+                        </div>
+                        <div class="row ml-0">
+                            <div><i class="fas fa-calender-alt" style="color: gray"></i></div>
+                            <p class="text-muted ml-3 mb-0">Last updated on: @product.UpdatedOn.ToString()</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col">
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">
+                                    <i class="fa fa-arrow-circle-right"></i>View
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-secondary float-right">
+                                    <i class="fa fa-edit"></i>Edit
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

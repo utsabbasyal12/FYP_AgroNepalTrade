@@ -1,0 +1,80 @@
+﻿@model FYP_AgroNepalTrade.Models.ProductViewModels.CreateViewModel
+@{
+    ViewBag.Title = "Add A Product";
+}
+<div class="container-fluid">
+    <h1 class="mt-4">Add</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <form asp-controller="Product" asp-action="Add" method="post" enctype="multipart/form-data">
+                    <div class="card-header">
+                        <i class="fas fa-pen-fancy mr-1"></i>
+                        Add a new product
+                    </div>
+                    <div class="card-body">
+                        <div class=" form-group">
+                            <label asp-for="HeaderImage"></label>
+                            <div class="custom-file">
+                                <input asp-for="HeaderImage" class="custom-file-input" accept="image/*" />
+                                <label class="custom-file-label">Choose file</label>
+                            </div>
+                            <span asp-validation-for="HeaderImage" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Product.ProductName"></label>
+                            <input asp-for="Product.ProductName" class="form-control" required />
+                            <span asp-validation-for="Product.ProductName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Product.Quantity"></label>
+                            <input asp-for="Product.Quantity" class="form-control" required />
+                            <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Product.PricePerUnit"></label>
+                            <input asp-for="Product.PricePerUnit" class="form-control" required />
+                            <span asp-validation-for="Product.PricePerUnit" class="text-danger"></span>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Select Unit</option>
+                                <option value="Kilogram">Kilogram</option>
+                                <option value="Gram">Gram</option>
+                                <option value="Milligram">Milligram</option>
+                                <option value="Quintal">Quintal</option>
+                                <option value="Tonne">Tonne</option>
+                            </select>
+                        </div>
+                        @*<div class="form-group">
+                            <label asp-for="Product.Quantity"></label>
+                            <textarea asp-for="Product.Quantity" class="form-control textarea" rows="8"></textarea>
+                            <span asp-validation-for="Product.Quantity" class="text-danger"></span>
+                        </div>*@
+                    </div>
+                    <div class="card-footer">
+                        <div class="form-group">
+                            <p class="text-muted">Publish now or save for later edits.</p>
+                            <label>Publish now?</label>
+                            <input type="checkbox" data-toggle="toogle" asp-for="Product.Published" />
+                            </br>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdn.ckeditor.com/ckeditor5/21.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('textarea'))
+            .catch(error => {
+                console.error(error);
+            });
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}

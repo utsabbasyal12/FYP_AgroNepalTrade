@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using AgroNepalTrade.Models;
 using FYP_AgroNepalTrade.Models.BlogViewModels;
+using FYP_AgroNepalTrade.Models.ProductViewModels;
 
 namespace AgroNepalTrade.Data
 {
@@ -18,6 +16,7 @@ namespace AgroNepalTrade.Data
         }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Product> Product { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -14,6 +14,8 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using FYP_AgroNepalTrade.Authorization;
+using FYP_AgroNepalTrade.ProductManagers;
+using FYP_AgroNepalTrade.ProductManagers.Interfaces;
 
 namespace FYP_AgroNepalTrade
 {
@@ -39,6 +41,9 @@ namespace FYP_AgroNepalTrade
             services.AddScoped<IBlogBusinessManager, BlogBusinessManager>();
             services.AddScoped<IAuthorBusinessManager, AuthorBusinessManager>();
             services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IProductBusinessManager, ProductBusinessManager>();
+            services.AddScoped<IFarmerBusinessManager, FarmerBusinessManager>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
             services.AddTransient<IAuthorizationHandler, BlogAuthorizatioHandler>();
         }
