@@ -2,12 +2,11 @@
 @{
     ViewData["HeaderImage"] = $"../../UserFiles/Blogs/{Model.Blog.Id}.HeaderImage.jpg";
     ViewData["HeaderTitle"] = Model.Blog.Title;
-    ViewData["AuthorName"] = $"{Model.Blog.Author.FirstName} {Model.Blog.Author.LastName}";
+    ViewData["AuthorName"] = $"{Model.Blog.Creator.FirstName} {Model.Blog.Creator.LastName}";
     ViewData["PostDate"] = Model.Blog.UpdatedOn.ToString("MMM d, yyyy");
-    ViewData["AuthorId"] = Model.Blog.Author.Id;
+    ViewData["AuthorId"] = Model.Blog.Creator.Id;
 }
 @using System.Web
-
 
 <header class="masthead" style="background-image:url('@ViewData["HeaderImage"]')">
     <div class="overlay">
@@ -16,12 +15,20 @@
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="Blog-heading">
                         <h1>@ViewData["HeaderTitle"]</h1>
-                        <span class="meta">
-                            Posted by
-                            <a href="#">@ViewData["AuthorName"]</a>
-                            on @ViewData["PostDate"]
-                        </span>
-                    </div>
+                        @if (ViewData["SubHeader"] is null)
+                        {
+                            <span class="meta">
+                                Posted by
+                                <i><b>@ViewData["AuthorName"]</b></i>
+                                <a asp-controller="Blog" asp-action="Author" asp-route-authorId="@ViewData["AuthorId"]">@ViewData["AuthorName"]</a>
+                                on @ViewData["PostDate"]
+                            </span>
+                        }
+                        else
+                        {
+                                <span class="subheading">@ViewData["SubHeader"]</span>
+                        }
+                        </div>
                 </div>
             </div>
         </div>
@@ -39,6 +46,7 @@
             <div class="col-lg-8 col-md-10 mx-auto">
                 <h3 class="mb-5">@Model.Blog.Comments.Count() Comments</h3>
                 <ul class="comment-list comment-top" list="@Model.Blog.Comments" count="0">
+                    
                     @foreach (var comment in Model.Blog.Comments.Where(comment => comment.Parent is null))
                     {
                         <li class="comment" style="margin-top: 30px;">
@@ -85,6 +93,7 @@
                         <hr />
                     }
                 </ul>
+               
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div>
@@ -115,6 +124,7 @@
                 $this.find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus');
                 return true;
             }
+            /* Open element will be close if parent !== undefined */
             var currentIcon = $this.find('.glyphicon');
             currentIcon.toggleClass('glyphicon-plus glyphicon-minus');
             $parent.find('.glyphicon').not(currentIcon).removeClass('glyphicon-minus').addClass('glyphicon-plus');

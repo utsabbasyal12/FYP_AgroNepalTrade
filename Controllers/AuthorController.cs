@@ -1,4 +1,5 @@
 ﻿using FYP_AgroNepalTrade.BlogManagers.Interfaces;
+using FYP_AgroNepalTrade.Models.AuthorViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +22,17 @@ namespace FYP_AgroNepalTrade.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await authorBusinessManager.GetAuthorDashboard(User));
+        }
+        public async Task<IActionResult> About()
+        {
+            return View(await authorBusinessManager.GetAboutViewModel(User));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAbout(AboutViewModel aboutViewModel)
+        {
+            await authorBusinessManager.UpdateAbout(aboutViewModel, User);
+            return RedirectToAction("About");
         }
     }
 }

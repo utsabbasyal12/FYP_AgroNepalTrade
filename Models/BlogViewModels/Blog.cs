@@ -11,7 +11,7 @@ namespace FYP_AgroNepalTrade.Models.BlogViewModels
     public class Blog
     {
         public int Id { get; set; }
-        public ApplicationUser Author { get; set; }
+        public ApplicationUser Creator { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]

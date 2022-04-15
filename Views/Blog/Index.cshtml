@@ -1,20 +1,29 @@
 ﻿@model FYP_AgroNepalTrade.Models.BlogViewModels.IndexViewModel
+@inject SignInManager<ApplicationUser> SignInManager
 @using PagedList.Core.Mvc
 @{
     ViewBag.Title = "Our Blogs";
 }
 <h1>Our Blogs</h1>
-<a class="btn btn-primary" asp-area="" asp-controller="Blog" asp-action="CreateBlog" style="float:right;">Create Blog</a>
-
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Author"))
+{
+    <a class="btn btn-primary" asp-area="" asp-controller="Blog" asp-action="CreateBlog" style="float:right;">Create Blog</a>
+}
 <div class="container">
-    <form asp-controller="Blog" asp-action="Index" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group mb-3">
-            <input asp-for="SearchString" type="text" class="form-control" placeholder="Search blogs for..." />
-            <div class="input-group-append ">
-                <button class="btn btn-outline-secondary" style="padding: 0 10px 0 10px">Search</button>
+    @* <form asp-controller="Blog" asp-action="Index" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group mb-3">
+                <input asp-for="SearchString" type="text" class="form-control" placeholder="Search blogs for..." />
+                <div class="input-group-append ">
+                    <button class="btn btn-outline-secondary" style="padding: 0 10px 0 10px">Search</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>*@
+    <div class="m-3">
+        <form class="d-flex col-3" asp-controller="Blog" asp-action="Index">
+            <input asp-for="SearchString" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
     <div class="row align-content-center">
         @foreach (var blog in Model.Blogs)
         {

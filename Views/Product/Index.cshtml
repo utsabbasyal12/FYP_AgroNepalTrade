@@ -6,14 +6,20 @@
 <h1>Our Farmers</h1>
 
 <div class="container">
-    <form asp-controller="Product" asp-action="Index" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group mb-3">
-            <input asp-for="SearchString" type="text" class="form-control" placeholder="Search Farmer for..." />
-            <div class="input-group-append ">
-                <button class="btn btn-outline-secondary" style="padding: 0 10px 0 10px">Search</button>
+    @*<form asp-controller="Product" asp-action="Index" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group mb-3">
+                <input asp-for="SearchString" type="text" class="form-control" placeholder="Search Farmer for..." />
+                <div class="input-group-append ">
+                    <button class="btn btn-outline-secondary" style="padding: 0 10px 0 10px">Search</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>*@
+    <div class="m-3">
+        <form class="d-flex col-3" asp-controller="Product" asp-action="Index">
+            <input asp-for="SearchString" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
     <div class="row align-content-center">
         @foreach (var product in Model.Products)
         {

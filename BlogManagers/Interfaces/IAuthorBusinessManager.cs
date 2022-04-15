@@ -10,5 +10,7 @@ namespace FYP_AgroNepalTrade.BlogManagers.Interfaces
     public interface IAuthorBusinessManager
     {
         Task<IndexViewModel> GetAuthorDashboard(ClaimsPrincipal claimsPrincipal);
+        Task<AboutViewModel> GetAboutViewModel(ClaimsPrincipal claimsPrincipal);
+        Task UpdateAbout(AboutViewModel aboutViewModel, ClaimsPrincipal claimsPrincipal);
     }
 }

@@ -22,12 +22,12 @@ namespace FYP_AgroNepalTrade.Authorization
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement, Blog resource)
         {
             var applicationUser = await userManager.GetUserAsync(context.User);
-            if(requirement.Name == Operations.Update.Name || requirement.Name == Operations.Delete.Name && applicationUser == resource.Author)
+            if((requirement.Name == Operations.Update.Name || requirement.Name == Operations.Delete.Name) && applicationUser == resource.Creator)
             {
                 context.Succeed(requirement);
             }
 
-            if (requirement.Name == Operations.Read.Name && !resource.Published && applicationUser == resource.Author)
+            if (requirement.Name == Operations.Read.Name && !resource.Published && applicationUser == resource.Creator)
                 context.Succeed(requirement);
         }
     }

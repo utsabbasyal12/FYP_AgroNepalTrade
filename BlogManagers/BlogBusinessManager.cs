@@ -74,7 +74,7 @@ namespace FYP_AgroNepalTrade.BlogManagers
         {
             Blog blog = createViewModel.Blog;
 
-            blog.Author = await userManager.GetUserAsync(claimsPrincipal);
+            blog.Creator = await userManager.GetUserAsync(claimsPrincipal);
             blog.CreatedOn = DateTime.Now;
             blog.UpdatedOn = DateTime.Now;
             

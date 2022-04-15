@@ -14,21 +14,30 @@ namespace FYP_AgroNepalTrade.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IBlogBusinessManager blogBusinessManager;
+        private readonly IBlogHomeBusinessManager blogHomeBusinessManager;
 
-        public BlogController(IWebHostEnvironment webHostEnvironment, IBlogBusinessManager blogBusinessManager)
+        public BlogController(IBlogBusinessManager blogBusinessManager, IBlogHomeBusinessManager blogHomeBusinessManager)
         {
-            this.webHostEnvironment = webHostEnvironment;
             this.blogBusinessManager = blogBusinessManager;
+            this.blogHomeBusinessManager = blogHomeBusinessManager;
         }
         // GET: BlogController
         [HttpGet]
+        
         public IActionResult Index(string searchString, int? page)
         {
             return View(blogBusinessManager.GetIndexViewModel(searchString, page));
         }
-      /*  [Route("Blog/{id}")]*/
+        public IActionResult Author(string authorId, string searchString, int? page)
+        {
+            var actionResult = blogHomeBusinessManager.GetAuthorViewModel(authorId, searchString, page);
+            if (actionResult.Result is null)
+                return View(actionResult.Value);
+
+            return actionResult.Result;
+        }
+        /*  [Route("Blog/{id}")]*/
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {

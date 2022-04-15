@@ -1,0 +1,72 @@
+﻿@model FYP_AgroNepalTrade.Models.FarmerViewModels.FarmerViewModel
+@using PagedList.Core.Mvc
+@{
+    ViewData["HeaderImage"] = $"../../UserFiles/Users/{Model.Farmer.Id}/HeaderImage.jpg";
+    ViewData["HeaderTitle"] = $"{Model.Farmer.FirstName} {Model.Farmer.LastName}";
+    ViewData["SubHeader"] = Model.Farmer.SubHeader;
+}
+<header class="masthead" style="background-image: url('@ViewData["HeaderImage"]')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-heading">
+                    <h1>@ViewData["HeaderTitle"]</h1>
+                    @if (ViewData["SubHeader"] is null)
+                    {
+                        <span class="meta">
+                            Posted by
+                            <a asp-controller="Home" asp-action="Author" asp-route-authorId="@ViewData["AuthorId"]">@ViewData["AuthorName"]</a>
+                            on @ViewData["PostDate"]
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="subheading">@ViewData["SubHeader"]</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<h1>Author View</h1>
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                @Html.Raw(Model.Farmer.AboutContent)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <form asp-controller="Farmer" asp-action="Farmer" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                    <div class="input-group mb-3">
+                        <input name="FarmerId" hidden readonly value="@Model.Farmer.Id" />
+                        <input asp-for="SearchString" type="text" class="form-control" placeholder="Search posts for..." />
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" style="padding: 0 10px 0 10px">Search</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row align-content-center">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="col-lg-4 col-md-3 mb-4">
+                            <div class="card border-0 shadow">
+                                <img src="~/UserFiles/Products/@product.Id/HeaderImage.jpg" class="card-img-top">
+                                <div class="card-body">
+                                    <div class="row text-center" style="margin: 0px auto 10px 0px;">
+                                        <h5 class="card-title text-center w-100"><a asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">@product.ProductName</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div list="@Model.Products" count="20">
+                    <pager class="pager-container" list="@Model.Products" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext" asp-action="Index" asp-controller="Farmer" asp-route-query="@Model.SearchString" />
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

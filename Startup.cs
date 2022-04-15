@@ -40,10 +40,13 @@ namespace FYP_AgroNepalTrade
             services.AddRazorPages();
             services.AddScoped<IBlogBusinessManager, BlogBusinessManager>();
             services.AddScoped<IAuthorBusinessManager, AuthorBusinessManager>();
+            services.AddScoped<IBlogHomeBusinessManager, BlogHomeBusinessManager>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IProductBusinessManager, ProductBusinessManager>();
             services.AddScoped<IFarmerBusinessManager, FarmerBusinessManager>();
+            services.AddScoped<IFarmerHomeBusinessManager, FarmerHomeBusinessManager>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
             services.AddTransient<IAuthorizationHandler, BlogAuthorizatioHandler>();
         }

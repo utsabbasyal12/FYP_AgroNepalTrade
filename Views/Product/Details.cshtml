@@ -4,19 +4,19 @@
 @{
     ViewData["HeaderImage"] = $"../../UserFiles/Products/{Model.Product.Id}.HeaderImage.jpg";
     ViewData["HeaderTitle"] = Model.Product.ProductName;
-    ViewData["AuthorName"] = $"{Model.Product.Farmer.FirstName} {Model.Product.Farmer.LastName}";
+    ViewData["FarmerName"] = $"{Model.Product.Farmer.FirstName} {Model.Product.Farmer.LastName}";
     ViewData["PostDate"] = Model.Product.UpdatedOn.ToString("MMM d, yyyy");
     ViewData["Quantity"] = Model.Product.Quantity.ToString();
     ViewData["Price"] = Model.Product.PricePerUnit.ToString();
     ViewData["UnitsForQuantity"] = Model.Product.UnitsForQuantity;
     ViewData["UnitsForPrice"] = Model.Product.UnitsForPrice;
-    ViewData["AuthorId"] = Model.Product.Farmer.Id;
+    ViewData["FarmerId"] = Model.Product.Farmer.Id;
     ViewData["PhoneNumber"] = Model.Product.Farmer.PhoneNumber;
 }
 @using System.Web
 
 
-<header class="masthead" style="background-image:url('@ViewData["HeaderImage"]')">
+<!--<header class="masthead" style="background-image:url('@ViewData["HeaderImage"]')">
     <img src="@ViewData["HeaderImage"]" class="card-img-top">
     <div class="overlay">
         <div class="container">
@@ -42,11 +42,11 @@
             <div class="col-lg-8 col-md-10 mx-auto">
                 <h3>Product Name: @ViewData["HeaderTitle"]</h3>
                 <h3>Quantity: @ViewData["Quantity"] @ViewData["UnitsForQuantity"] </h3>
-                <h3>Price Per Unit: @ViewData["Price"]/@ViewData["UnitsForPrice"]  </h3>
-                @* @Html.Raw(HttpUtility.HtmlDecode(Model.Product.ProductName))
-        @Html.Raw(HttpUtility.HtmlDecode(Model.Product.Quantity.ToString()))*@
+                <h3>Price Per Unit: @ViewData["Price"]/@ViewData["UnitsForPrice"]  </h3>-->
+@* @Html.Raw(HttpUtility.HtmlDecode(Model.Product.ProductName))
+    @Html.Raw(HttpUtility.HtmlDecode(Model.Product.Quantity.ToString()))*@
 
-                </br>
+<!--</br>
 
                 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
                 {
@@ -59,4 +59,124 @@
         </div>
 
     </div>
-</article>
+</article>-->
+
+
+<head>
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="~/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: Selecao - v4.7.0
+    * Template URL: https://bootstrapmade.com/selecao-bootstrap-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+    <main id="main">
+
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Product Details</h2>
+                    <ol>
+                        <li><a href="index.html">Home</a></li>
+                        <li>Product Details</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section><!-- End Breadcrumbs -->
+        <!-- ======= Portfolio Details Section ======= -->
+        <section id="portfolio-details" class="portfolio-details">
+            <div class="container">
+
+                <div class="row gy-4">
+
+                    <div class="col-lg-8">
+                        <div class="portfolio-details-slider swiper">
+                            <div class="swiper-wrapper align-items-center">
+
+                                <div class="swiper-slide" style="background-image:url('@ViewData["HeaderImage"]')">
+                                    @*<img src="~/UserFiles/Products/{Model.Product.Id}.HeaderImage.jpg" alt="">*@
+                                </div>
+
+                                <div class="swiper-slide">
+                                    <img src="~/img/portfolio/portfolio-details-2.jpg" alt="">
+                                </div>
+
+                                <div class="swiper-slide">
+                                    <img src="~/img/portfolio/portfolio-details-3.jpg" alt="">
+                                </div>
+
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="portfolio-info">
+                            <h3>Product information</h3>
+                            <ul>
+                                <li><strong>Farmer Name</strong>: <a asp-controller="Farmer" asp-action="Farmer" asp-route-authorId="@ViewData["FarmerId"]">@ViewData["FarmerName"]</a></li>
+                                <li><strong>Product Name</strong>: @ViewData["HeaderTitle"]</li>
+                                <li><strong>Quantity</strong>: @ViewData["Quantity"] @ViewData["UnitsForQuantity"]</li>
+                                <li><strong>Price Per Unit</strong>: @ViewData["Price"]/@ViewData["UnitsForPrice"]</li>
+                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
+                                {
+                                    <li class="btn btn-primary">@ViewData["PhoneNumber"]</li>
+                                    <li><a href="#" class="btn btn-success" role="button">Contact Suppliers</a></li>
+
+                                }
+                            </ul>
+                        </div>
+                        <div class="portfolio-description">
+                            <h2>About Farmer</h2>
+                            <p>
+                                Autem ipsum nam porro corporis rerum. Quis eos dolorem eos itaque inventore commodi labore quia quia. Exercitationem repudiandae officiis neque suscipit non officia eaque itaque enim. Voluptatem officia accusantium nesciunt est omnis tempora consectetur dignissimos. Sequi nulla at esse enim cum deserunt eius.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section><!-- End Portfolio Details Section -->
+
+    </main><!-- End #main -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/js/main.js"></script>
+
+</body>

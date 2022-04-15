@@ -24,7 +24,7 @@ namespace FYP_AgroNepalTrade.Models.Services
         public Blog GetBlog(int blogId)
         {
             return applicationDbContext.Blogs
-                .Include(blog => blog.Author)
+                .Include(blog => blog.Creator)
                 .Include(blog => blog.Comments)
                     .ThenInclude(comment => comment.Author)
                 .Include(blog => blog.Comments)
@@ -36,7 +36,7 @@ namespace FYP_AgroNepalTrade.Models.Services
         {
             return applicationDbContext.Blogs
                 .OrderByDescending(blog => blog.UpdatedOn)
-                .Include(blog => blog.Author)
+                .Include(blog => blog.Creator)
                 .Include(blog => blog.Comments)
                 .Where(blog => blog.Title.Contains(searchString) || blog.Content.Contains(searchString));
         }
@@ -44,10 +44,10 @@ namespace FYP_AgroNepalTrade.Models.Services
         public IEnumerable<Blog> GetBlogs(ApplicationUser applicationUser)
         {
             return applicationDbContext.Blogs
-                .Include(blog => blog.Author)
+                .Include(blog => blog.Creator)
                 .Include(blog => blog.Approver)
                 .Include(blog => blog.Comments)
-                .Where(blog => blog.Author == applicationUser);
+                .Where(blog => blog.Creator == applicationUser);
         }
 
         public Comment GetComment(int commentId)

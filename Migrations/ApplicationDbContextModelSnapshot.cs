@@ -25,6 +25,9 @@ namespace FYP_AgroNepalTrade.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AboutContent")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
@@ -74,6 +77,9 @@ namespace FYP_AgroNepalTrade.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SubHeader")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -110,15 +116,15 @@ namespace FYP_AgroNepalTrade.Migrations
                     b.Property<string>("ApproverId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Published")
                         .HasColumnType("bit");
@@ -134,7 +140,7 @@ namespace FYP_AgroNepalTrade.Migrations
 
                     b.HasIndex("ApproverId");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Blogs");
                 });
@@ -351,13 +357,13 @@ namespace FYP_AgroNepalTrade.Migrations
                         .WithMany()
                         .HasForeignKey("ApproverId");
 
-                    b.HasOne("AgroNepalTrade.Models.ApplicationUser", "Author")
+                    b.HasOne("AgroNepalTrade.Models.ApplicationUser", "Creator")
                         .WithMany()
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("CreatorId");
 
                     b.Navigation("Approver");
 
-                    b.Navigation("Author");
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("FYP_AgroNepalTrade.Models.BlogViewModels.Comment", b =>
