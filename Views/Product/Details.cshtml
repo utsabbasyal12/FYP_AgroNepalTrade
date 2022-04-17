@@ -145,8 +145,8 @@
                                 <li><strong>Price Per Unit</strong>: @ViewData["Price"]/@ViewData["UnitsForPrice"]</li>
                                 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Customer"))
                                 {
-                                    <li class="btn btn-primary">@ViewData["PhoneNumber"]</li>
-                                    <li><a href="#" class="btn btn-success" role="button">Contact Suppliers</a></li>
+                                    <li class="btn btn-outline-primary">@ViewData["PhoneNumber"]</li>
+                                    <li><a asp-controller="Customer" asp-action="SendRequest" class="btn btn-outline-success" role="button">Request Order</a></li>
 
                                 }
                             </ul>
